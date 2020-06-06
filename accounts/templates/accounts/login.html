@@ -1,0 +1,40 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 center-div">
+            <form class="form-container" action="{% url 'accounts:login' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h4 style="text-align: center;">Login</h4>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" aria-describedby="userHelp" placeholder="Enter Username">
+                    <small id="userHelp" class="form-text text-muted">Your details are safe</small>
+                </div>                
+                <div class="form-group">
+                    <label for="user_password">Password</label>
+                    <input type="password" class="form-control" id="user_password" name="user_password" aria-describedby="passHelp" placeholder="Enter Password">
+                    <small id="passHelp" class="form-text text-muted">Your password is encrypted and safe</small>
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" value="Login">
+                <hr>
+                <p><small><a style="text-align: center" href="{% url 'accounts:register' %}">New User?</a></small></p>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

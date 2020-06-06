@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'accounts/css/register.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@600&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 center-div">
+                {% if registered %}
+                    <div class="jumbotron" style="text-align: center">
+                        <h3>Thank You for Registering</h3>
+                        <p><a href="{% url 'accounts:login' %}">Go Back to Login</a></p>
+                    </div>
+                {% else %}
+                    <form class="form-container" method="POST" enctype="multipart/form-data">
+                        <h4>Register</h4>
+
+                        {% csrf_token %}
+                        {{ user_form.as_p }}
+                        {{ client_form.as_p }}
+                        <br/>
+                        <input type="submit" class="btn btn-primary btn-block" value="Register">
+                        <hr>
+                        <strong><p style="text-align: center;margin-top: -10px;"><small><a style="text-align: center" href="{% url 'accounts:login' %}">Go Back to Login...</a></small></p></strong>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
