@@ -1,0 +1,40 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.container {
+    height: inherit;
+}
+
+.navbar {
+	height: 60px;
+	margin-bottom: 0px;
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #777777;
+    font: 1.5em;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    color: #000000;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #8a8584;
+}
+
+/* To center contents of navbar */
+li>a, .navbar-brand {
+	margin-top: 8px;
+}
+
+footer {
+    background-color: #e0e0e0;
+	/* background-color: #2d2d30; */
+	color: #f5f5f5;
+}
+
+.footer-copyright{
+    color: #000000;
+}

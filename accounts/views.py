@@ -31,7 +31,7 @@ def userLogin(request):
         if(user):
             if(user.is_active):
                 login(request,user)
-                # return HttpResponseRedirect(reverse('dash:home'))
+                return HttpResponseRedirect(reverse('dash:home'))
         else:
             print(' [info] Login Failed')
             print("Username {} and Password {}".format(username,password))
@@ -46,7 +46,7 @@ def userLogin(request):
 def userLogout(request):
 
     logout(request)
-    return HttpResponseRedirect(reverse('accounts:index'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def register(request):
