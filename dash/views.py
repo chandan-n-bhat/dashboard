@@ -8,5 +8,8 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/accounts/login')
 def home(request):
 
-    context = {}
-    return render(request, 'dash/base.html', context=context)
+    row1 = [0,1,2,3]
+    row3 = [0,1,2]
+
+    context = {'row1':row1,'row3':row3}
+    return render(request, 'dash/home.html', context=context)

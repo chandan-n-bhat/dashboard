@@ -9,4 +9,47 @@
 
 {% block body %}
 
+    <br><br><br><br><br><br>
+
+    <div class="container-fluid" style="padding: 0px 15%;">
+        <div class="row content">
+            {% for i in row1 %}
+                <div class="col-sm-3 shadow">
+                    <div class="well">
+                        <h5>Today's Activity</h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <hr>
+        
+        <div class="row content">
+            <div class="col-sm-10 shadow" >
+                <div class="well" style="height:300px">
+                    <h5>Today's Activity</h5>
+                </div>
+            </div>
+            <div class="col-sm-2 shadow" >
+                <div class="well" style="height:300px">
+                    <h5>Today's Activity</h5>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        
+        <div class="row content">
+            {% for i in row3 %}
+                <div class="col-sm-4 shadow" >
+                    <div class="well" style="height:200px">
+                        <h5>Today's Activity</h5>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>    
+    
+    <br><br><br><br><br>
 {% endblock %}
