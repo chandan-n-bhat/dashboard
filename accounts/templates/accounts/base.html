@@ -55,8 +55,8 @@
                             <li><a style="color:#4b4b4b;">Logged in as <span style="color: red;">{{ user.username }}</span></a></li>
                             <li><a class="navbar-link" href="{% url 'accounts:logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
                         {% else %}
-                            <li><a href="{% url 'accounts:register' %}"><i class="fa fa-user-plus"></i> Sign Up</a></li>
                             <li><a href="{% url 'accounts:login' %}"><i class="fa fa-user"></i> Login</a></li>
+                            <li><a href="{% url 'accounts:register' %}"><i class="fa fa-user-plus"></i> Sign Up</a></li>
                         {% endif %}
                     </ul>
                 </div>
