@@ -17,6 +17,18 @@
         {% block head %}
 
         {% endblock %}
+
+        <style>
+
+            body{
+                background: url("{% static 'accounts/images/wp-fin2.jpg' %}");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                height:100%;
+            }
+    
+        </style>
     </head>
 
     <body>
@@ -35,11 +47,12 @@
 
                 <div class="collapse navbar-collapse" id="bs-nav-demo" style="text-align: center;background: #f8f8f8;"> 
                     <ul class="nav navbar-nav">
-                        <li><a href="#">About</a></li>
                         <li><a href="#">Contact</a></li>
+                        <li><a href="{% url 'dash:home' %}">Explore Dashboard</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
-                        {% if user.is_authenticated %}               
+                        {% if user.is_authenticated %}
+                            <li><a style="color:#4b4b4b;">Logged in as <span style="color: red;">{{ user.username }}</span></a></li>
                             <li><a class="navbar-link" href="{% url 'accounts:logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
                         {% else %}
                             <li><a href="{% url 'accounts:register' %}"><i class="fa fa-user-plus"></i> Sign Up</a></li>
@@ -53,6 +66,14 @@
         {% block body %}
 
         {% endblock %}
+
+        <footer class="text-center font-small footer navbar-fixed-bottom">
+            <br/>
+            <div class="footer-copyright text-center py-3">© 2020 Copyright :
+                <a href="#"><strong> Dashboard </strong></a>
+                <br><br>
+            </div>
+        </footer>
         
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
