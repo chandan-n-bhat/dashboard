@@ -13,10 +13,12 @@
 
     <div class="container-fluid" style="padding: 0px 15%;">
         <div class="row content">
-            {% for i in row1 %}
+            {% for col in row1 %}
                 <div class="col-sm-3 shadow">
                     <div class="well">
-                        <h5>Today's Activity</h5>
+                        <h4 style="text-align: center;padding:0;margin:0;"><i class='{{ col.icon_class }}' aria-hidden="true"></i>  {{ col.header }}</h4>
+                        <hr style="margin-top: 5%;">
+                        <h5 style="text-align: center;">{{ col.body }}</h5>
                     </div>
                 </div>
             {% endfor %}
