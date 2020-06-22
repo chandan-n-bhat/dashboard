@@ -50,17 +50,37 @@
         <hr>
         
         <div class="row content">
-            {% for i in row3 %}
-                <div class="col-sm-4 shadow" >
-                    <div class="well" style="height:350px">
-                        <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Product Sales</h4>
-                        <hr>
-                        <div class="holder">
-                            <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
-                        </div>
+            
+            <div class="col-sm-4 shadow" >
+                <div class="well" style="height:350px">
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Pie Chart</h4>
+                    <hr>
+                    <div class="holder">
+                        <canvas id="myPieChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+
+            <div class="col-sm-4 shadow" >
+                <div class="well" style="height:350px">
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Product Sales</h4>
+                    <hr>
+                    <div class="holder">
+                        <canvas id="" style="margin: 5px;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 shadow" >
+                <div class="well" style="height:350px">
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Doughnut Chart</h4>
+                    <hr>
+                    <div class="holder">
+                        <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
+                    </div>
+                </div>
+            </div>
+            
         </div>
 
     </div>    
@@ -144,6 +164,24 @@
                     data: [2478,5267,734,784,433]
                 }
             ]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio: false,
+            }
+        });
+
+        var piectx = document.getElementById("myPieChart").getContext('2d');
+
+        var myPieChart = new Chart(piectx, {
+            type: 'pie',
+            data: {
+            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                data: [2478,5267,734,784,433]
+            }]
             },
             options: {
                 responsive:true,
