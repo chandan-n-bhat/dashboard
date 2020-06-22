@@ -4,7 +4,7 @@
 {% block head %}
     <title>Dashboard| Home</title>
     <link rel="stylesheet" href="{% static 'dash/css/home.css' %}">
-
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -16,9 +16,9 @@
             {% for col in row1 %}
                 <div class="col-sm-3 shadow">
                     <div class="well">
-                        <h4 style="text-align: center;padding:0;margin:0;"><i class='{{ col.icon_class }}' aria-hidden="true"></i>  {{ col.header }}</h4>
-                        <hr style="margin-top: 5%;">
-                        <h5 style="text-align: center;">{{ col.body }}</h5>
+                        <h4><i class='{{ col.icon_class }}' aria-hidden="true"></i>  {{ col.header }}</h4>
+                        <hr>
+                        <h5>{{ col.body }}</h5>
                     </div>
                 </div>
             {% endfor %}
@@ -27,17 +27,22 @@
         <hr>
         
         <div class="row content">
-            <div class="col-sm-10 shadow" >
-                <div class="well" style="height:300px">
-                    <h5 style="text-align: center;">Product Sales</h5>
-                    <div style="height:80%;weight:80%">
-                        <canvas id="myChart" width="80%" height="80%" style="margin: 5px;;"></canvas>
+            <div class="col-sm-8 shadow" >
+                <div class="well" style="height:330px">
+                    <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Product Sales</h4>
+                    <hr>
+                    <div class="holder">
+                        <canvas id="myLineChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-2 shadow" >
-                <div class="well" style="height:300px">
-                    <h5>Today's Activity</h5>
+            <div class="col-sm-4 shadow" >
+                <div class="well" style="height:330px">
+                    <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Product Sales</h4>
+                    <hr>
+                    <div class="holder">
+                        <canvas id="myBarChart" style="margin: 5px;"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,8 +52,12 @@
         <div class="row content">
             {% for i in row3 %}
                 <div class="col-sm-4 shadow" >
-                    <div class="well" style="height:200px">
-                        <h5>Today's Activity</h5>
+                    <div class="well" style="height:350px">
+                        <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Product Sales</h4>
+                        <hr>
+                        <div class="holder">
+                            <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -56,17 +65,15 @@
 
     </div>    
     
-    <br><br><br><br><br>
-
     <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
+        var barctx = document.getElementById('myBarChart').getContext('2d');
+        var myBarChart = new Chart(barctx, {
 
             type: 'bar',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
-                    label: '# of Votes',
+                    label: '# of Sales',
                     data: [12, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -90,7 +97,7 @@
  
             options: {
                 responsive:true,
-            maintainAspectRatio: false,
+                maintainAspectRatio: false,
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -100,5 +107,49 @@
                 }
             }
         });
+
+        var linectx = document.getElementById("myLineChart").getContext('2d');
+        var myLineChart = new Chart(linectx, {
+        type: 'line',
+        data: {
+            labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+            datasets: [{ 
+                data: [86,114,106,106,107,111,133,221,783,278],
+                label: "Product 1",
+                borderColor: "#00179c",
+                fill: false
+            }, { 
+                data: [282,350,411,502,635,809,947,142,370,567],
+                label: "Product 2",
+                borderColor: "#a60800",
+                fill: false
+            }
+            ]
+        },
+        options: {
+            responsive:true,
+            maintainAspectRatio: false,
+        }
+        });
+
+        var doughctx = document.getElementById("myDoughnutChart").getContext('2d');
+        var myDoughnutChart = new Chart(doughctx, {
+            type: 'doughnut',
+            data: {
+            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+            datasets: [
+                {
+                    label: "Population (millions)",
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    data: [2478,5267,734,784,433]
+                }
+            ]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio: false,
+            }
+        });
+
         </script>
 {% endblock %}
