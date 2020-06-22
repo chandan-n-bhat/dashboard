@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/accounts/login')
 def home(request):
 
-    row1 = [0,1,2,3]
+    # row1 = [0,1,2,3]
     row3 = [0,1,2]
 
     current_user = request.user
