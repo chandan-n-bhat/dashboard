@@ -8,6 +8,17 @@
     .row.content {height: auto;} 
 }
 
+.container-fluid{
+    padding: 0 15%;
+}
+
+@media (max-width: 400px) {
+    /* CSS that should be displayed if width is equal to or less than 800px goes here */
+    .container-fluid{
+        padding: 0 8%;
+    }
+}
+  
 .well{
     border-radius: 0px;
     background-color: #ffffff;

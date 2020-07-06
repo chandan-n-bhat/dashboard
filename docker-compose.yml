@@ -9,5 +9,5 @@ services:
         volumes:
             - .:/code
         ports:
-            - "443:8000"
+            - "8001:8000"
         restart: on-failure
