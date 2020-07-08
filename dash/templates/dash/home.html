@@ -130,29 +130,58 @@
             }
         });
 
-        var linectx = document.getElementById("myLineChart").getContext('2d');
-        var myLineChart = new Chart(linectx, {
-        type: 'line',
-        data: {
-            labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-            datasets: [{ 
-                data: [86,114,106,106,107,111,133,221,783,278],
-                label: "Product 1",
-                borderColor: "#00179c",
-                fill: false
-            }, { 
-                data: [282,350,411,502,635,809,947,142,370,567],
-                label: "Product 2",
-                borderColor: "#a60800",
-                fill: false
+        function YWS(yws_labels,yws_values,year){
+
+            var linectx = document.getElementById("myLineChart").getContext('2d');
+            var myLineChart = new Chart(linectx, {
+            type: 'line',
+            data: {
+                labels: yws_labels,
+                datasets: [{ 
+                    // data: [86,114,106,106,107,111,133,221,783,278],
+                    data: yws_values,
+                    label: year,
+                    borderColor: "#00179c",
+                    fill: true
+                }
+                // , { 
+                //     data: [282,350,411,502,635,809,947,142,370,567],
+                //     label: "Product 2",
+                //     borderColor: "#a60800",
+                //     fill: false
+                // }
+                ]
+            },
+            options: {
+                responsive:true,
+                maintainAspectRatio: false,
             }
-            ]
-        },
-        options: {
-            responsive:true,
-            maintainAspectRatio: false,
+            });
+
         }
+
+
+        var curDate = new Date();
+        var curYear = curDate.getFullYear();
+        // console.log(curYear);
+
+        // Ajax call to fetch linechart details
+        $.ajax({
+            url: '{% url "dash:yearWiseSale" %}',
+            type: 'GET',
+            data: {
+                year: curYear
+            },
+            dataType: 'json',
+            success: function (response) {
+                var yws_labels = response['yws_labels'];
+                var yws_values = response['yws_values'];
+                YWS(yws_labels,yws_values,curYear);
+
+            }
         });
+
+
 
         function DPC(dpc_labels,dpc_values,pc_labels,pc_values){
             
@@ -198,9 +227,9 @@
 
         }
 
-        // Ajax call to fetch doughnut details
+        // Ajax call to fetch doughnut and pie details
         $.ajax({
-            url: '{% url "dash:doughnut" %}',
+            url: '{% url "dash:doughnutPieChart" %}',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -212,5 +241,5 @@
             }
         });
 
-        </script>
+    </script>
 {% endblock %}

@@ -62,7 +62,7 @@ def doughnutData(request):
 
     return JsonResponse({"Error":"Invalid Method"}, status=405)
 
-def doughnutData(request):
+def dpc(request):
 
     if(request.method == 'GET'):
 
@@ -105,3 +105,48 @@ def doughnutData(request):
         return JsonResponse(response, status=200)
 
     return JsonResponse({"Error":"Invalid Method"}, status=405)
+
+
+def yearWiseSales(request):
+
+    if(request.method =='GET'):
+
+        # thisYear = request.GET['year']
+        thisYear = '2018'
+        print(thisYear)
+
+        data = Billed.objects.values_list('billed_dt',flat=True)
+
+        month_wise_count = {
+            '01':0,
+            '02':0,
+            '03':0,
+            '04':0,
+            '05':0,
+            '06':0,
+            '07':0,
+            '08':0,
+            '09':0,
+            '10':0,
+            '11':0,
+            '12':0,
+        }
+
+        for i in data:
+            dt,tm = i.split(' ')
+            year,month,day = dt.split('-')
+            if(year == thisYear):
+                #valid instance
+                month_wise_count[month] += 1
+
+        # print(month_wise_count)
+        yws_labels = list(month_wise_count.keys())
+        yws_values = list(month_wise_count.values())
+        response = {
+            'yws_labels': yws_labels,
+            'yws_values': yws_values
+        }
+
+        return JsonResponse(response, status=200)
+
+    return JsonResponse({"Error":"Invalid Method"}, status=200)
