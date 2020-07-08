@@ -13,7 +13,7 @@
 }
 
 @media (max-width: 400px) {
-    /* CSS that should be displayed if width is equal to or less than 800px goes here */
+    /* CSS that should be displayed if width is equal to or less than max-width goes here */
     .container-fluid{
         padding: 0 8%;
     }

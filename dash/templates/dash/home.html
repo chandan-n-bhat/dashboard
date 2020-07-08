@@ -152,16 +152,32 @@
         }
         });
 
+        var doughnut_labels = null
+        // Ajax call to fetch doughnut details
+        $.ajax({
+            url: '{% url "dash:doughnetData" %}',
+            data: {
+              'username': username
+            },
+            dataType: 'json',
+            success: function (data) {
+              if (data.is_taken) {
+                // alert("A user with this username already exists.");
+                swal("Oops!", "This Username is not available!", "error");
+              }
+            }
+        });
+
         var doughctx = document.getElementById("myDoughnutChart").getContext('2d');
         var myDoughnutChart = new Chart(doughctx, {
             type: 'doughnut',
             data: {
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+            labels: ["Unit1", "Unit3"],
             datasets: [
                 {
                     label: "Population (millions)",
-                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                    data: [2478,5267,734,784,433]
+                    backgroundColor: ["#ff3d66","#36a2eb"],
+                    data: [5267,433]
                 }
             ]
             },
