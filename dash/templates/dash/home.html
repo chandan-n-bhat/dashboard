@@ -53,7 +53,7 @@
             
             <div class="col-sm-4 shadow" >
                 <div class="well" style="height:350px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Pie Chart</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Vendor Distribution</h4>
                     <hr>
                     <div class="holder">
                         <canvas id="myPieChart" style="margin: 5px;"></canvas>
@@ -73,7 +73,7 @@
 
             <div class="col-sm-4 shadow" >
                 <div class="well" style="height:350px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Doughnut Chart</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Unit wise Sales</h4>
                     <hr>
                     <div class="holder">
                         <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
@@ -85,6 +85,8 @@
 
     </div>    
     
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
     <script>
         var barctx = document.getElementById('myBarChart').getContext('2d');
         var myBarChart = new Chart(barctx, {
@@ -152,56 +154,61 @@
         }
         });
 
-        var doughnut_labels = null
+        function DPC(dpc_labels,dpc_values,pc_labels,pc_values){
+            
+            var doughctx = document.getElementById("myDoughnutChart").getContext('2d');
+            var myDoughnutChart = new Chart(doughctx, {
+                type: 'doughnut',
+                data: {
+                // labels: ["Unit1", "Unit3"],
+                labels: dpc_labels,
+                datasets: [
+                    {
+                        label: "Population (millions)",
+                        backgroundColor: ["#ff3d66","#36a2eb"],
+                        // data: [5267,433]
+                        data: dpc_values
+                    }
+                ]
+                },
+                options: {
+                    responsive:true,
+                    maintainAspectRatio: false,
+                }
+            });
+
+
+            var piectx = document.getElementById("myPieChart").getContext('2d');
+            var myPieChart = new Chart(piectx, {
+                type: 'pie',
+                data: {
+                // labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                labels: pc_labels,
+                datasets: [{
+                    backgroundColor: ["#ff8000", "#0029cf","#3cba9f","#e8c3b9","#c45850"],
+                    // data: [2478,5267,734,784,433]
+                    data: pc_values
+                }]
+                },
+                options: {
+                    responsive:true,
+                    maintainAspectRatio: false,
+                }
+            });
+
+        }
+
         // Ajax call to fetch doughnut details
         $.ajax({
-            url: '{% url "dash:doughnetData" %}',
-            data: {
-              'username': username
-            },
+            url: '{% url "dash:doughnut" %}',
+            type: 'GET',
             dataType: 'json',
-            success: function (data) {
-              if (data.is_taken) {
-                // alert("A user with this username already exists.");
-                swal("Oops!", "This Username is not available!", "error");
-              }
-            }
-        });
-
-        var doughctx = document.getElementById("myDoughnutChart").getContext('2d');
-        var myDoughnutChart = new Chart(doughctx, {
-            type: 'doughnut',
-            data: {
-            labels: ["Unit1", "Unit3"],
-            datasets: [
-                {
-                    label: "Population (millions)",
-                    backgroundColor: ["#ff3d66","#36a2eb"],
-                    data: [5267,433]
-                }
-            ]
-            },
-            options: {
-                responsive:true,
-                maintainAspectRatio: false,
-            }
-        });
-
-        var piectx = document.getElementById("myPieChart").getContext('2d');
-
-        var myPieChart = new Chart(piectx, {
-            type: 'pie',
-            data: {
-            labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-            datasets: [{
-                label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-                data: [2478,5267,734,784,433]
-            }]
-            },
-            options: {
-                responsive:true,
-                maintainAspectRatio: false,
+            success: function (response) {
+                var dc_labels = response['doughnut_labels_keys'];
+                var dc_values = response['doughnut_values'];
+                var pc_labels = response['pie_labels'];
+                var pc_values = response['pie_values'];
+                DPC(dc_labels,dc_values,pc_labels,pc_values);
             }
         });
 
