@@ -95,11 +95,27 @@ def dpc(request):
         pie_labels = list(vendors_count_pie.keys())
         pie_values = list(vendors_count_pie.values())
 
+
+        items = Billed.objects.values_list('item_name',flat=True)
+        items_count = dict()
+
+        for i_ in items:
+            if(i_ not in items_count.keys()):
+                items_count[i_] = 0
+            items_count[i_] += 1
+
+        dpc2_labels = list(items_count.keys())
+        dpc2_values = list(items_count.values())
+        # print(dpc2_labels)
+        # print(dpc2_values)
+
         response = {
             'doughnut_labels_keys': doughnut_labels,
             'doughnut_values': doughnut_values,
             'pie_labels': pie_labels,
-            'pie_values': pie_values
+            'pie_values': pie_values,
+            'dpc2_labels': dpc2_labels,
+            'dpc2_values': dpc2_values
         }
         # print(response)
         return JsonResponse(response, status=200)
@@ -111,13 +127,29 @@ def yearWiseSales(request):
 
     if(request.method =='GET'):
 
-        # thisYear = request.GET['year']
-        thisYear = '2018'
-        print(thisYear)
+        thisYear = request.GET['year']
+        prevYear = str(int(thisYear)-1)
+        # print(prevYear)
+        # print(thisYear)
 
         data = Billed.objects.values_list('billed_dt',flat=True)
 
-        month_wise_count = {
+        current_month_wise_count = {
+            '01':0,
+            '02':0,
+            '03':0,
+            '04':0,
+            '05':0,
+            '06':0,
+            '07':0,
+            '08':0,
+            '09':0,
+            '10':0,
+            '11':0,
+            '12':0,
+        }
+
+        prev_month_wise_count = {
             '01':0,
             '02':0,
             '03':0,
@@ -137,16 +169,60 @@ def yearWiseSales(request):
             year,month,day = dt.split('-')
             if(year == thisYear):
                 #valid instance
-                month_wise_count[month] += 1
+                current_month_wise_count[month] += 1
+            
+            elif(year == prevYear):
+                #valid prev instance
+                prev_month_wise_count[month] += 1
 
-        # print(month_wise_count)
-        yws_labels = list(month_wise_count.keys())
-        yws_values = list(month_wise_count.values())
+        # print(current_month_wise_count)
+        # print(prev_month_wise_count)
+        # yws - yearwisesales && pyws - previousyearwisesales
+        yws_labels = list(current_month_wise_count.keys())
+        yws_values = list(current_month_wise_count.values())
+        
+        
+        pyws_labels = list(prev_month_wise_count.keys())
+        pyws_values = list(prev_month_wise_count.values())
+
         response = {
             'yws_labels': yws_labels,
-            'yws_values': yws_values
+            'yws_values': yws_values,
+            'pyws_labels': pyws_labels,
+            'pyws_values': pyws_values
         }
 
         return JsonResponse(response, status=200)
 
-    return JsonResponse({"Error":"Invalid Method"}, status=200)
+    return JsonResponse({"Error":"Invalid Method"}, status=405)
+
+
+def itemSales(request):
+
+    if(request.method == 'GET'):
+
+        items = Billed.objects.values_list('item_name',flat=True)
+        items_count_bar = dict()
+
+        for i_ in items:
+            if(i_ not in items_count_bar.keys()):
+                items_count_bar[i_] = 0
+            items_count_bar[i_] += 1
+
+        # print(items_count_bar.keys())
+        # print(items_count_bar.values())
+        # print(items_count_bar)
+
+        bar_labels = list(items_count_bar.keys())
+        bar_values = list(items_count_bar.values())
+        # print(bar_values)
+        # print(bar_labels)
+
+        response = {
+            'bar_labels': bar_labels,
+            'bar_values': bar_values,
+        }
+        # print(response)
+        return JsonResponse(response, status=200)
+
+    return JsonResponse({"Error":"Invalid Method"}, status=405)

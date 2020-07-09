@@ -42,13 +42,13 @@
                         <span class="icon-bar"></span>
                     </button>
 
-                    <a class="navbar-brand" href="{% url 'index' %}"><strong>Dashboard</strong></a>
+                    <a class="navbar-brand" href="{% url 'index' %}"><strong>Klene Paks</strong></a>
                 </div>                    
 
                 <div class="collapse navbar-collapse" id="bs-nav-demo" style="text-align: center;background: #f8f8f8;"> 
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="{% url 'dash:home' %}">Explore Dashboard</a></li>
+                        <!-- <li><a href="#">Contact</a></li> -->
+                        <li><a href="{% url 'dash:home' %}">Dashboard</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right"> 
                         {% if user.is_authenticated %}

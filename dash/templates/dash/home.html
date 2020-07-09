@@ -28,17 +28,22 @@
         
         <div class="row content">
             <div class="col-sm-8 shadow" >
-                <div class="well" style="height:330px">
-                    <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Product Sales</h4>
+                <div class="well" style="height:370px">
+                    <h4><i class="fa fa-line-chart" aria-hidden="true"></i> Product Sales
+                        <select class="form-control drpdwn" name="yearpicker" id="yearpicker">
+                        
+                        </select>
+                    </h4>
                     <hr>
-                    <div class="holder">
+                    
+                    <div class="holder" id="updatableChart">
                         <canvas id="myLineChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 shadow" >
-                <div class="well" style="height:330px">
-                    <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Product Sales</h4>
+                <div class="well" style="height:370px">
+                    <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Items Distribution</h4>
                     <hr>
                     <div class="holder">
                         <canvas id="myBarChart" style="margin: 5px;"></canvas>
@@ -53,20 +58,20 @@
             
             <div class="col-sm-4 shadow" >
                 <div class="well" style="height:350px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Vendor Distribution</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Items Distribution</h4>
                     <hr>
                     <div class="holder">
-                        <canvas id="myPieChart" style="margin: 5px;"></canvas>
+                        <canvas id="myDoughnutChart2" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-4 shadow" >
                 <div class="well" style="height:350px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Product Sales</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Vendor Distribution</h4>
                     <hr>
                     <div class="holder">
-                        <!-- <canvas id="" style="margin: 5px;"></canvas> -->
+                        <canvas id="myPieChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -87,79 +92,48 @@
     
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-    <script>
-        var barctx = document.getElementById('myBarChart').getContext('2d');
-        var myBarChart = new Chart(barctx, {
+    <script src="{% static 'dash/js/home.js' %}" type="text/javascript"></script>
 
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Sales',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
- 
-            options: {
-                responsive:true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
+    <script>
+
+        $(document).ready(function(){
+            $("#yearpicker").change(function(){
+                // console.log("Changed!")
+                resetCanvas();
+                var year = $("#yearpicker option:selected").text()
+                // console.log(year)
+                $.ajax({
+                    url: '{% url "dash:yearWiseSale" %}',
+                    type: 'GET',
+                    data: {
+                        year: year
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var yws_labels = response['yws_labels'];
+                        var yws_values = response['yws_values'];
+                        var pyws_labels = response['pyws_labels'];
+                        var pyws_values = response['pyws_values'];
+                        YWS(yws_labels,yws_values,pyws_labels,pyws_values,year); // YearWiseSales
+                    }
+                });
+
+            });
+        });
+  
+
+        $.ajax({
+            url: '{% url "dash:itemSales" %}',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var bar_labels = response['bar_labels'];
+                var bar_values = response['bar_values'];
+                IS(bar_labels,bar_values); // ItemSales
+
             }
         });
-
-        function YWS(yws_labels,yws_values,year){
-
-            var linectx = document.getElementById("myLineChart").getContext('2d');
-            var myLineChart = new Chart(linectx, {
-            type: 'line',
-            data: {
-                labels: yws_labels,
-                datasets: [{ 
-                    // data: [86,114,106,106,107,111,133,221,783,278],
-                    data: yws_values,
-                    label: year,
-                    borderColor: "#00179c",
-                    fill: true
-                }
-                // , { 
-                //     data: [282,350,411,502,635,809,947,142,370,567],
-                //     label: "Product 2",
-                //     borderColor: "#a60800",
-                //     fill: false
-                // }
-                ]
-            },
-            options: {
-                responsive:true,
-                maintainAspectRatio: false,
-            }
-            });
-
-        }
-
+  
 
         var curDate = new Date();
         var curYear = curDate.getFullYear();
@@ -176,56 +150,13 @@
             success: function (response) {
                 var yws_labels = response['yws_labels'];
                 var yws_values = response['yws_values'];
-                YWS(yws_labels,yws_values,curYear);
+                var pyws_labels = response['pyws_labels'];
+                var pyws_values = response['pyws_values'];
+                YWS(yws_labels,yws_values,pyws_labels,pyws_values,curYear);
 
             }
         });
 
-
-
-        function DPC(dpc_labels,dpc_values,pc_labels,pc_values){
-            
-            var doughctx = document.getElementById("myDoughnutChart").getContext('2d');
-            var myDoughnutChart = new Chart(doughctx, {
-                type: 'doughnut',
-                data: {
-                // labels: ["Unit1", "Unit3"],
-                labels: dpc_labels,
-                datasets: [
-                    {
-                        label: "Population (millions)",
-                        backgroundColor: ["#ff3d66","#36a2eb"],
-                        // data: [5267,433]
-                        data: dpc_values
-                    }
-                ]
-                },
-                options: {
-                    responsive:true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-
-            var piectx = document.getElementById("myPieChart").getContext('2d');
-            var myPieChart = new Chart(piectx, {
-                type: 'pie',
-                data: {
-                // labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-                labels: pc_labels,
-                datasets: [{
-                    backgroundColor: ["#ff8000", "#0029cf","#3cba9f","#e8c3b9","#c45850"],
-                    // data: [2478,5267,734,784,433]
-                    data: pc_values
-                }]
-                },
-                options: {
-                    responsive:true,
-                    maintainAspectRatio: false,
-                }
-            });
-
-        }
 
         // Ajax call to fetch doughnut and pie details
         $.ajax({
@@ -237,7 +168,10 @@
                 var dc_values = response['doughnut_values'];
                 var pc_labels = response['pie_labels'];
                 var pc_values = response['pie_values'];
-                DPC(dc_labels,dc_values,pc_labels,pc_values);
+                var dpc2_labels = response['dpc2_labels'];
+                var dpc2_values = response['dpc2_values'];
+
+                DPC(dc_labels,dc_values,pc_labels,pc_values,dpc2_labels,dpc2_values);
             }
         });
 
