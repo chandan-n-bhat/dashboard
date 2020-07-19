@@ -52,6 +52,10 @@ function IS(bar_labels,bar_values){
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Items Count'
                     }
                 }],
                 xAxes: [{
@@ -91,6 +95,20 @@ function YWS(yws_labels,yws_values,pyws_labels,pyws_values,year){
     options: {
         responsive:true,
         maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Count of Sales'
+                }
+            }],
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Months',
+                }
+            }]
+        }
     }
     });
 
