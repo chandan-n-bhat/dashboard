@@ -37,7 +37,7 @@
                     <hr>
                     
                     <div class="holder" id="updatableChart">
-                        <!-- <canvas id="myLineChart" style="margin: 5px;"></canvas> -->
+                        <canvas id="myLineChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -99,30 +99,30 @@
 
     <script>
 
-        // $(document).ready(function(){
-        //     $("#yearpicker").change(function(){
-        //         // console.log("Changed!")
-        //         resetCanvas();
-        //         var year = $("#yearpicker option:selected").text()
-        //         // console.log(year)
-        //         $.ajax({
-        //             url: '{% url "dash:yearWiseSale" %}',
-        //             type: 'GET',
-        //             data: {
-        //                 year: year
-        //             },
-        //             dataType: 'json',
-        //             success: function (response) {
-        //                 var yws_labels = response['yws_labels'];
-        //                 var yws_values = response['yws_values'];
-        //                 var pyws_labels = response['pyws_labels'];
-        //                 var pyws_values = response['pyws_values'];
-        //                 YWS(yws_labels,yws_values,pyws_labels,pyws_values,year); // YearWiseSales
-        //             }
-        //         });
+        $(document).ready(function(){
+            $("#yearpicker").change(function(){
+                // console.log("Changed!")
+                resetCanvas();
+                var year = $("#yearpicker option:selected").text()
+                // console.log(year)
+                $.ajax({
+                    url: '{% url "dash:yearWiseSale" %}',
+                    type: 'GET',
+                    data: {
+                        year: year
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        var yws_labels = response['yws_labels'];
+                        var yws_values = response['yws_values'];
+                        var pyws_labels = response['pyws_labels'];
+                        var pyws_values = response['pyws_values'];
+                        YWS(yws_labels,yws_values,pyws_labels,pyws_values,year); // YearWiseSales
+                    }
+                });
 
-        //     });
-        // });
+            });
+        });
 
         /*
         
@@ -190,22 +190,22 @@
         // console.log(curYear);
 
         // Ajax call to fetch linechart details
-        // $.ajax({
-        //     url: '{% url "dash:yearWiseSale" %}',
-        //     type: 'GET',
-        //     data: {
-        //         year: curYear
-        //     },
-        //     dataType: 'json',
-        //     success: function (response) {
-        //         var yws_labels = response['yws_labels'];
-        //         var yws_values = response['yws_values'];
-        //         var pyws_labels = response['pyws_labels'];
-        //         var pyws_values = response['pyws_values'];
-        //         YWS(yws_labels,yws_values,pyws_labels,pyws_values,curYear);
+        $.ajax({
+            url: '{% url "dash:yearWiseSale" %}',
+            type: 'GET',
+            data: {
+                year: curYear
+            },
+            dataType: 'json',
+            success: function (response) {
+                var yws_labels = response['yws_labels'];
+                var yws_values = response['yws_values'];
+                var pyws_labels = response['pyws_labels'];
+                var pyws_values = response['pyws_values'];
+                YWS(yws_labels,yws_values,pyws_labels,pyws_values,curYear);
 
-        //     }
-        // });
+            }
+        });
 
 
         // Ajax call to fetch doughnut and pie details

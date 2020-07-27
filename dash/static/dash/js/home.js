@@ -69,50 +69,50 @@ function IS(bar_labels,bar_values){
 }
 
 
-// function YWS(yws_labels,yws_values,pyws_labels,pyws_values,year){
+function YWS(yws_labels,yws_values,pyws_labels,pyws_values,year){
 
-//     linectx = document.getElementById("myLineChart").getContext('2d');
-//     myLineChart = new Chart(linectx, {
-//     type: 'line',
-//     data: {
-//         labels: yws_labels,
-//         datasets: [{ 
-//             // data: [86,114,106,106,107,111,133,221,783,278],
-//             data: yws_values,
-//             label: year,
-//             borderColor: "#00179c",
-//             fill: true
-//         },
-//         { 
-//             // data: [282,350,411,502,635,809,947,142,370,567],
-//             data: pyws_values,
-//             label: year-1,
-//             borderColor: "#a60800",
-//             fill: true
-//         }
-//         ]
-//     },
-//     options: {
-//         responsive:true,
-//         maintainAspectRatio: false,
-//         scales: {
-//             yAxes: [{
-//                 scaleLabel: {
-//                     display: true,
-//                     labelString: 'Count of Sales'
-//                 }
-//             }],
-//             xAxes: [{
-//                 scaleLabel: {
-//                     display: true,
-//                     labelString: 'Months',
-//                 }
-//             }]
-//         }
-//     }
-//     });
+    linectx = document.getElementById("myLineChart").getContext('2d');
+    myLineChart = new Chart(linectx, {
+    type: 'line',
+    data: {
+        labels: yws_labels,
+        datasets: [{ 
+            // data: [86,114,106,106,107,111,133,221,783,278],
+            data: yws_values,
+            label: year,
+            borderColor: "#00179c",
+            fill: true
+        },
+        { 
+            // data: [282,350,411,502,635,809,947,142,370,567],
+            data: pyws_values,
+            label: year-1,
+            borderColor: "#a60800",
+            fill: true
+        }
+        ]
+    },
+    options: {
+        responsive:true,
+        maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Count of Sales'
+                }
+            }],
+            xAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Months',
+                }
+            }]
+        }
+    }
+    });
 
-// }
+}
 
 function DPC(dpc_labels,dpc_values,pc_labels,pc_values,dpc2_labels,dpc2_values){
             
