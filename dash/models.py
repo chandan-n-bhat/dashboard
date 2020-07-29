@@ -84,5 +84,5 @@ class Billed(models.Model):
         return "Id: " + str(self.id)
 
     class Meta:
-        db_table = 'Billed'
+        db_table = 'new_bills'
 
