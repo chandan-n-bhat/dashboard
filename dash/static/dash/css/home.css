@@ -9,7 +9,7 @@
 }
 
 .container-fluid{
-    padding: 0 15%;
+    padding: 0 10%;
 }
 
 @media (max-width: 400px) {
@@ -66,4 +66,12 @@ h5{
     margin-left: 15px;
     width: 30%;
     height: 30px;
+}
+
+.list-group-item {
+    height: 50px;
+}
+
+.list-group-item>.badge{
+    margin-left:5px;
 }
