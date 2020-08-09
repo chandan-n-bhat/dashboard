@@ -49,10 +49,10 @@
 
             <div class="col-sm-4 shadow" >
                 <div class="well" style="height:370px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Items Distribution</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Unit Wise Sales</h4>
                     <hr>
                     <div class="holder">
-                        <canvas id="myDoughnutChart2" style="margin: 5px;"></canvas>
+                        <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
         <div class="row content">
             <div class="col-sm-12 shadow" >
                 <div class="well" style="height:400px">
-                    <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Items Distribution</h4>
+                    <h4><i class="fa fa-bar-chart" aria-hidden="true"></i> Vendor Distribution</h4>
                     <hr>
                     <div class="holder">
                         <canvas id="myBarChart" style="margin: 5px;"></canvas>
@@ -79,10 +79,14 @@
             
             <div class="col-sm-5 shadow" >
                 <div class="well" style="height:350px">
-                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Unit Wise Sales</h4>
+                    <h4><i class="fa fa-pie-chart" aria-hidden="true"></i> Most Frequent Items</h4>
                     <hr>
                     <div class="holder">
-                        <canvas id="myDoughnutChart" style="margin: 5px;"></canvas>
+                        <ul class="list-group">
+                            {% for key,val in top.items %}
+                                <li class="list-group-item"> {{ key}} <span class="badge">{{ val }}</span></li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -115,22 +119,68 @@
                 var year = $("#yearpicker option:selected").text()
                 // console.log(year)
                 $.ajax({
-                    url: '{% url "dash:yearWiseSale" %}',
+                    url: '{% url "dash:lineChart" %}',
                     type: 'GET',
                     data: {
                         year: year
                     },
                     dataType: 'json',
                     success: function (response) {
-                        var yws_labels = response['yws_labels'];
-                        var yws_values = response['yws_values'];
-                        var pyws_labels = response['pyws_labels'];
-                        var pyws_values = response['pyws_values'];
-                        YWS(yws_labels,yws_values,pyws_labels,pyws_values,year); // YearWiseSales
+                        var cur_labels = response['cur_labels'];
+                        var cur_values = response['cur_values'];
+                        // var prev_labels = response['prev_labels'];   not needed as cur labels are same as prev labels
+                        var prev_values = response['prev_values'];
+                        constructLineChart(cur_labels,cur_values,prev_values,year);
                     }
                 });
 
             });
+        });
+
+        var curDate = new Date();
+        var curYear = curDate.getFullYear();
+        // console.log(curYear);
+
+        // Ajax call to fetch linechart details
+        $.ajax({
+            url: '{% url "dash:lineChart" %}',
+            type: 'GET',
+            data: {
+                year: curYear
+            },
+            dataType: 'json',
+            success: function (response) {
+                var cur_labels = response['cur_labels'];
+                var cur_values = response['cur_values'];
+                // var prev_labels = response['prev_labels'];   not needed as cur labels are same as prev labels
+                var prev_values = response['prev_values'];
+                constructLineChart(cur_labels,cur_values,prev_values,curYear);
+            }
+        });
+
+        $.ajax({
+            url: '{% url "dash:barGraph" %}',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var bar_labels = response['bar_labels'];
+                var bar_values = response['bar_values'];
+                constructBarGraph(bar_labels,bar_values);
+            }
+        });
+
+        // Ajax call to fetch doughnut and pie details
+        $.ajax({
+            url: '{% url "dash:doughnutChart" %}',
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var dc_labels = response['doughnut_labels_keys'];
+                var dc_values = response['doughnut_values'];
+                var pc_labels = response['pie_labels'];
+                var pc_values = response['pie_values'];
+                doughnutPieConstructor(dc_labels,dc_values,pc_labels,pc_values);
+            }
         });
 
         /*
@@ -180,59 +230,6 @@
         });
         
         */
-
-        $.ajax({
-            url: '{% url "dash:itemSales" %}',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                var bar_labels = response['bar_labels'];
-                var bar_values = response['bar_values'];
-                IS(bar_labels,bar_values); // ItemSales
-
-            }
-        });
-  
-
-        var curDate = new Date();
-        var curYear = curDate.getFullYear();
-        // console.log(curYear);
-
-        // Ajax call to fetch linechart details
-        $.ajax({
-            url: '{% url "dash:yearWiseSale" %}',
-            type: 'GET',
-            data: {
-                year: curYear
-            },
-            dataType: 'json',
-            success: function (response) {
-                var yws_labels = response['yws_labels'];
-                var yws_values = response['yws_values'];
-                var pyws_labels = response['pyws_labels'];
-                var pyws_values = response['pyws_values'];
-                YWS(yws_labels,yws_values,pyws_labels,pyws_values,curYear);
-
-            }
-        });
-
-
-        // Ajax call to fetch doughnut and pie details
-        $.ajax({
-            url: '{% url "dash:doughnutPieChart" %}',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                var dc_labels = response['doughnut_labels_keys'];
-                var dc_values = response['doughnut_values'];
-                var pc_labels = response['pie_labels'];
-                var pc_values = response['pie_values'];
-                var dpc2_labels = response['dpc2_labels'];
-                var dpc2_values = response['dpc2_values'];
-
-                DPC(dc_labels,dc_values,pc_labels,pc_values,dpc2_labels,dpc2_values);
-            }
-        });
 
     </script>
 {% endblock %}
